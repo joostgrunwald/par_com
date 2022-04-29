@@ -79,11 +79,6 @@ void relax( double *in, double *out, size_t n)
 
 int main (int argc, char *argv[])
 {
-    // to store the execution time of code
-    double time_spent = 0.0;
- 
-    // start the clock
-    clock_t begin = clock();
 
    double *a,*b, *tmp;
    size_t n=0;
@@ -121,6 +116,14 @@ int main (int argc, char *argv[])
    printf( "iter   : %d\n", max_iter);
 
    print(a, n);
+   
+   // to store the execution time of code
+   double time_spent = 0.0;
+ 
+   // start the clock
+   clock_t begin = clock();
+    
+   //TODO switch to clock_gettime() and clock.settime()?
 
    for( i=0; i<max_iter; i++) {
       tmp = a;
@@ -128,9 +131,6 @@ int main (int argc, char *argv[])
       b = tmp;
       relax( a, b, n);
    }
-
-   printf( "Matrix after %d iterations:\n", i);
-   print( b, n);
    
    //end clock
    clock_t end = clock();
@@ -138,9 +138,13 @@ int main (int argc, char *argv[])
    // calculate elapsed time by finding difference (end - begin) and
    // dividing the difference by CLOCKS_PER_SEC to convert to seconds
    time_spent += (double)(end - begin) / CLOCKS_PER_SEC;
+
+   printf( "Matrix after %d iterations:\n", i);
+   print( b, n);
+   
  
    //user output
-   printf("The elapsed time is %f seconds", time_spent);
+   printf("The elapsed time is %f seconds \n", time_spent);
    
    return 0;
 }
